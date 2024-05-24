@@ -1,12 +1,19 @@
 /* (c) Copyright Frontify Ltd., all rights reserved. */
 
 import './App.css';
-import '@frontify/fondue/style';
 import { type PlatformAppContext, usePlatformAppBridge } from '@frontify/app-bridge';
 import { useEffect, useState } from 'react';
 import { Flex, FOCUS_VISIBLE_STYLE, Heading, IconArrowOutExternal20, merge } from "@frontify/fondue";
 
 export const App = () => {
+    /**
+     * The App-Bridge package is included as a dependency by default.
+     * In this example, we are retrieving the context from the platform
+     * using the PlatformAppBridge hook.
+     *
+     * There are more hooks and utilities available that you can use.
+     * For more information, please refer to our documentation.
+     */
     const appBridge = usePlatformAppBridge();
     const [context, setContext] = useState<PlatformAppContext>();
 
@@ -18,6 +25,11 @@ export const App = () => {
         setContext(appBridge.context().get());
     }, [appBridge]);
 
+    /**
+     * We recommend building your apps using our Design System, Fondue.
+     * fondue-tokens are often used for styling.
+     * All the Tailwind classes derived from our tokens have the 'tw-' prefix.
+     */
     return (
         <div className="tw-font-body tw-h-screen tw-bg-base tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-y-6">
             <Heading size="xx-large" weight="strong">Hello World!</Heading>
