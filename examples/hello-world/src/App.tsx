@@ -4,7 +4,7 @@ import './App.css';
 import '@frontify/fondue/style';
 import { type PlatformAppContext, usePlatformAppBridge } from '@frontify/app-bridge';
 import { useEffect, useState } from 'react';
-import {Flex, FOCUS_VISIBLE_STYLE, Heading, IconArrowOutExternal20, merge} from "@frontify/fondue";
+import { Flex, FOCUS_VISIBLE_STYLE, Heading, IconArrowOutExternal20, merge } from "@frontify/fondue";
 
 export const App = () => {
     const appBridge = usePlatformAppBridge();
@@ -22,7 +22,7 @@ export const App = () => {
         <div className="tw-font-body tw-h-screen tw-bg-base tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-y-6">
             <Heading size="xx-large" weight="strong">Hello World!</Heading>
             <Flex direction="column">
-                <p className="tw-text-text">Congratulations! You've Successfully Connected Your App to Our Platform.</p>
+                <p className="tw-text-text">Congratulations! You've successfully connected your app to our platform.</p>
                 {
                     context && (
                         <p className="tw-text-text-weak tw-text-body-small">Surface: {context.surface}</p>
