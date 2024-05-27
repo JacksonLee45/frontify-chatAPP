@@ -1,0 +1,41 @@
+{
+    "appId": "<Your app ID>",
+    "appType": "platform-app",
+    "name": "template-platform-app-tailwind",
+    "metadata": {
+        "version": 1
+    },
+    "surfaces": {
+        "mediaLibrary": {
+            "assetAction": {
+                "title": "Asset Action",
+                "type": ["image"],
+                "filenameExtension": ["png", "jpeg"]
+            },
+            "assetCreation": {
+                "title": "Asset Creation"
+            }
+        }
+    },
+    "secrets": [
+        { "key": "THIRD_PARTY_API_KEY", "label": "Example Service" }
+    ],
+    "network": {
+        "endpoints": [
+            {
+                "name": "body-endpoint-id",
+                "resource": "https://jsonplaceholder.typicode.com/posts",
+                "options": {
+                    "headers": {
+                        "Content-type": "application/json"
+                    },
+                    "method": "POST",
+                    "body": {
+                        "title": "$$title$$",
+                        "body": "%%THIRD_PARTY_API_KEY%%"
+                    }
+                }
+            }
+        ]
+    }
+}
