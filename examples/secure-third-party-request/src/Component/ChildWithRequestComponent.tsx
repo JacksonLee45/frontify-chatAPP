@@ -18,10 +18,12 @@ export const ChildWithRequestComponent = () => {
             name: 'getSecretRequest',
             payload: { id: 'body-endpoint-id', requestParams: { title: 'title' } },
         });
+        if (!output) {
+            return;
+        }
 
-        const {
-            data: { body, title },
-        }: any = output;
+        const { data } = output as { data: { body: string; title: string } };
+        const { body, title } = data;
 
         console.log(body, title);
     };
