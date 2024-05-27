@@ -17,9 +17,7 @@
             }
         }
     },
-    "secrets": [
-        { "key": "THIRD_PARTY_API_KEY", "label": "Example Service" }
-    ],
+    "secrets": [{ "key": "THIRD_PARTY_API_KEY", "label": "Example Service" }],
     "network": {
         "endpoints": [
             {

@@ -2,9 +2,10 @@
 
 import './App.css';
 import { type PlatformAppContext, usePlatformAppBridge } from '@frontify/app-bridge';
+import { Flex, Heading } from '@frontify/fondue';
 import { useEffect, useState } from 'react';
-import { Flex, Heading } from "@frontify/fondue";
-import {ChildWithRequestComponent} from "./Component/ChildWithRequestComponent.tsx";
+
+import { ChildWithRequestComponent } from './Component/ChildWithRequestComponent.tsx';
 
 export const App = () => {
     /**
@@ -32,23 +33,22 @@ export const App = () => {
      * All the Tailwind classes derived from our tokens have the 'tw-' prefix.
      */
     return (
-        <div
-            className="tw-font-body tw-text-text tw-h-screen tw-bg-base tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-y-6">
-            <Heading size="xx-large" weight="strong">App connected!</Heading>
+        <div className="tw-font-body tw-text-text tw-h-screen tw-bg-base tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-y-6">
+            <Heading size="xx-large" weight="strong">
+                App connected!
+            </Heading>
             <Flex direction="column">
-                <p>Congratulations! You've successfully connected your app to our platform.</p>
-                {
-                    context && (
-                        <p className="tw-text-text-weak tw-text-body-small">[Surface] Your entrypoint is: {context.surface}</p>
-                    )
-                }
+                <p>Congratulations! You have successfully connected your app to our platform.</p>
+                <p className="tw-text-text-weak tw-text-body-small">[Surface] Your entrypoint is: {context?.surface}</p>
             </Flex>
 
             <Flex direction="column">
-                <Heading size="x-large" weight="strong">Secure Request feature</Heading>
+                <Heading size="x-large" weight="strong">
+                    Secure Request feature
+                </Heading>
+                <p>Try calling the Secure Request Service and check the output in the console.</p>
+                <ChildWithRequestComponent />
             </Flex>
-            <p>Try calling the Secure Request Service and check the output in the console.</p>
-            <ChildWithRequestComponent/>
         </div>
     );
 };
