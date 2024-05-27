@@ -34,16 +34,19 @@ export const App = () => {
     return (
         <div
             className="tw-font-body tw-text-text tw-h-screen tw-bg-base tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-y-6">
-            <Heading size="xx-large" weight="strong">Secure Request</Heading>
+            <Heading size="xx-large" weight="strong">App connected!</Heading>
             <Flex direction="column">
                 <p>Congratulations! You've successfully connected your app to our platform.</p>
                 {
                     context && (
-                        <p className="tw-text-text-weak tw-text-body-small">Surface: {context.surface}</p>
+                        <p className="tw-text-text-weak tw-text-body-small">[Surface] Your entrypoint is: {context.surface}</p>
                     )
                 }
             </Flex>
 
+            <Flex direction="column">
+                <Heading size="x-large" weight="strong">Secure Request feature</Heading>
+            </Flex>
             <p>Try calling the Secure Request Service and check the output in the console.</p>
             <ChildWithRequestComponent/>
         </div>
