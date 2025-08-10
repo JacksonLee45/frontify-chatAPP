@@ -4,7 +4,7 @@ import './App.css';
 import { appContext } from '@frontify/app-bridge-app';
 import { Flex, Heading } from '@frontify/fondue';
 
-import { ChildWithRequestComponent } from './Component/ChildWithRequestComponent.tsx';
+import { ChatGPTComponent } from './Component/ChatGPTComponent.tsx';
 
 export const App = () => {
     /**
@@ -14,28 +14,40 @@ export const App = () => {
      * For more information, please refer to our documentation.
      */
     const context = appContext();
+    
     /**
      * We recommend building your apps using our Design System, Fondue.
      * fondue-tokens are often used for styling.
      * All the Tailwind classes derived from our tokens have the 'tw-' prefix.
      */
     return (
-        <div className="tw-font-body tw-text-text tw-h-screen tw-bg-base tw-flex tw-flex-col tw-justify-center tw-items-center tw-gap-y-6">
-            <Heading size="xx-large" weight="strong">
-                App connected!
-            </Heading>
-            <Flex direction="column">
-                <p>Congratulations! You have successfully connected your app to our platform.</p>
-                <p className="tw-text-text-weak tw-text-body-small">[Surface] Your entrypoint is: {context.surface}</p>
-            </Flex>
-
-            <Flex direction="column">
-                <Heading size="x-large" weight="strong">
-                    Secure Request feature
+        <div className="tw-font-body tw-text-text tw-min-h-screen tw-bg-base tw-flex tw-flex-col tw-p-6">
+            {/* Header */}
+            <div className="tw-text-center tw-mb-8">
+                <Heading size="xx-large" weight="strong">
+                    Frontify ChatGPT Assistant
                 </Heading>
-                <p>Try calling the Secure Request Service and check the output in the console.</p>
-                <ChildWithRequestComponent />
-            </Flex>
+                <Flex direction="column">
+                    <p className="tw-text-text-weak tw-mb-1">
+                        Generate brand-approved messaging and content with AI assistance
+                    </p>
+                    <p className="tw-text-text-weak tw-text-body-small">
+                        [Surface] Running in: {context.surface}
+                    </p>
+                </Flex>
+            </div>
+
+            {/* Main Chat Interface */}
+            <div className="tw-flex-1">
+                <ChatGPTComponent />
+            </div>
+
+            {/* Footer */}
+            <div className="tw-text-center tw-mt-8 tw-pt-4 tw-border-t tw-border-line">
+                <p className="tw-text-text-weak tw-text-body-small">
+                    Powered by OpenAI's ChatGPT • Built with Frontify's Brand SDK
+                </p>
+            </div>
         </div>
     );
 };

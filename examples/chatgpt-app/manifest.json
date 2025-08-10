@@ -1,7 +1,7 @@
 {
     "appId": "<Your app ID>",
     "appType": "platform-app",
-    "name": "template-platform-app-tailwind",
+    "name": "frontify-chatgpt-app",
     "metadata": {
         "version": 1
     },
@@ -11,40 +11,35 @@
     "surfaces": {
         "mediaLibrary": {
             "assetAction": {
-                "title": "Asset Action",
+                "title": "ChatGPT Assistant",
                 "type": ["image"],
                 "filenameExtension": ["png", "jpeg"]
             },
             "assetCreation": {
-                "title": "Asset Creation"
+                "title": "ChatGPT Content Generator"
             }
         }
     },
-    "secrets": [{ "key": "THIRD_PARTY_API_KEY", "label": "Example Service" }],
+    "secrets": [
+        { "key": "OPENAI_API_KEY", "label": "OpenAI API Key" }
+    ],
     "network": {
         "endpoints": [
             {
-                "name": "body-endpoint-id",
-                "resource": "https://jsonplaceholder.typicode.com/posts",
+                "name": "chatgpt-completion",
+                "resource": "https://api.openai.com/v1/chat/completions",
                 "options": {
                     "headers": {
-                        "Content-type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer %%OPENAI_API_KEY%%"
                     },
                     "method": "POST",
                     "body": {
-                        "title": "$$title$$",
-                        "body": "%%THIRD_PARTY_API_KEY%%"
+                        "model": "$$model$$",
+                        "messages": "$$messages$$",
+                        "max_tokens": "$$max_tokens$$",
+                        "temperature": "$$temperature$$"
                     }
-                }
-            },
-            {
-                "name": "body-endpoint-get",
-                "resource": "https://jsonplaceholder.typicode.com/$$segment$$/%%THIRD_PARTY_API_KEY%%",
-                "options": {
-                    "headers": {
-                        "Content-type": "application/json"
-                    },
-                    "method": "GET"
                 }
             }
         ]
