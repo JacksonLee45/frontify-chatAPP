@@ -27,20 +27,18 @@ export const ChatGPTComponent = () => {
         setError(null);
 
         try {
-            // Prepare messages for OpenAI API format
-            const apiMessages = updatedMessages.map(msg => ({
-                role: msg.role,
-                content: msg.content
-            }));
+            // For now, we'll send just the current user message due to Frontify limitations
+            // This is a simplified approach - full conversation history isn't supported
+            const userMessage = userInput;
 
-            console.log('API messages:', apiMessages);
+            console.log('Sending user message:', userMessage);
 
             const response = await appBridge.api({
                 name: 'getSecureRequest',
                 payload: {
                     endpoint: 'chatgpt-completion',
                     requestParams: {
-                        messages: apiMessages
+                        userMessage: userMessage
                     }
                 }
             });
@@ -74,99 +72,65 @@ export const ChatGPTComponent = () => {
         }
     };
 
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    };
-
-    const clearChat = () => {
-        setMessages([]);
-        setError(null);
-    };
-
     return (
-        <div className="tw-w-full tw-max-w-4xl tw-mx-auto tw-p-4">
-            {/* Chat Messages */}
-            <div className="tw-border tw-border-line tw-rounded-lg tw-bg-surface tw-mb-4 tw-h-96 tw-overflow-y-auto tw-p-4">
-                {messages.length === 0 ? (
-                    <div className="tw-text-text-weak tw-text-center tw-py-8">
-                        <p>Start a conversation with ChatGPT!</p>
-                        <p className="tw-text-sm tw-mt-2">Try asking for help with marketing copy, brand messaging, or content ideas.</p>
-                    </div>
-                ) : (
-                    <div className="tw-space-y-4">
-                        {messages.map((message, index) => (
-                            <div key={index} className={`tw-flex ${message.role === 'user' ? 'tw-justify-end' : 'tw-justify-start'}`}>
-                                <div className={`tw-max-w-xs tw-lg:max-w-md tw-px-4 tw-py-2 tw-rounded-lg ${
-                                    message.role === 'user' 
-                                        ? 'tw-bg-brand tw-text-brand-contrast' 
-                                        : 'tw-bg-surface-variant tw-text-text'
-                                }`}>
-                                    <div className="tw-text-xs tw-font-medium tw-mb-1 tw-opacity-70">
-                                        {message.role === 'user' ? 'You' : 'ChatGPT'}
-                                    </div>
-                                    <div className="tw-whitespace-pre-wrap">{message.content}</div>
+        <div className="tw-p-4 tw-max-w-2xl tw-mx-auto">
+            <div className="tw-mb-4">
+                <h2 className="tw-text-xl tw-font-bold tw-mb-4">ChatGPT Assistant</h2>
+                
+                {/* Chat Messages */}
+                <div className="tw-border tw-rounded-lg tw-p-4 tw-h-96 tw-overflow-y-auto tw-mb-4 tw-bg-gray-50">
+                    {messages.length === 0 ? (
+                        <p className="tw-text-gray-500 tw-text-center">Start a conversation with ChatGPT...</p>
+                    ) : (
+                        messages.map((message, index) => (
+                            <div
+                                key={index}
+                                className={`tw-mb-3 tw-p-3 tw-rounded-lg ${
+                                    message.role === 'user'
+                                        ? 'tw-bg-blue-100 tw-ml-8'
+                                        : 'tw-bg-white tw-mr-8'
+                                }`}
+                            >
+                                <div className="tw-font-semibold tw-text-sm tw-mb-1">
+                                    {message.role === 'user' ? 'You' : 'ChatGPT'}
                                 </div>
+                                <div className="tw-text-sm">{message.content}</div>
                             </div>
-                        ))}
-                        {isLoading && (
-                            <div className="tw-flex tw-justify-start">
-                                <div className="tw-bg-surface-variant tw-px-4 tw-py-2 tw-rounded-lg tw-flex tw-items-center tw-space-x-2">
-                                    <div className="tw-animate-spin tw-rounded-full tw-h-4 tw-w-4 tw-border-2 tw-border-brand tw-border-t-transparent"></div>
-                                    <span className="tw-text-text-weak">ChatGPT is thinking...</span>
-                                </div>
-                            </div>
-                        )}
+                        ))
+                    )}
+                    {isLoading && (
+                        <div className="tw-bg-white tw-mr-8 tw-mb-3 tw-p-3 tw-rounded-lg">
+                            <div className="tw-font-semibold tw-text-sm tw-mb-1">ChatGPT</div>
+                            <div className="tw-text-sm tw-text-gray-500">Thinking...</div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Error Display */}
+                {error && (
+                    <div className="tw-bg-red-100 tw-border tw-border-red-400 tw-text-red-700 tw-px-4 tw-py-3 tw-rounded tw-mb-4">
+                        {error}
                     </div>
                 )}
-            </div>
 
-            {/* Error Display */}
-            {error && (
-                <div className="tw-mb-4 tw-p-4 tw-bg-red-50 tw-border tw-border-red-200 tw-rounded-lg">
-                    <div className="tw-text-red-800">{error}</div>
-                </div>
-            )}
-
-            {/* Input Area */}
-            <div className="tw-space-y-4">
-                <textarea
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
-                    rows={3}
-                    className="tw-w-full tw-p-3 tw-border tw-border-line tw-rounded-lg tw-bg-surface tw-text-text tw-resize-none focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-brand focus:tw-border-transparent"
-                    disabled={isLoading}
-                />
-                <div className="tw-flex tw-justify-between tw-items-center">
-                    <Button 
-                        onPress={clearChat} 
-                        //variant="secondary"
-                        disabled={messages.length === 0}
-                    >
-                        Clear Chat
-                    </Button>
+                {/* Input Area */}
+                <div className="tw-flex tw-gap-2">
+                    <input
+                        type="text"
+                        value={userInput}
+                        onChange={(e) => setUserInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && !isLoading && sendMessage()}
+                        placeholder="Type your message..."
+                        className="tw-flex-1 tw-border tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm"
+                        disabled={isLoading}
+                    />
                     <Button 
                         onPress={sendMessage} 
-                        disabled={!userInput.trim() || isLoading}
+                        disabled={isLoading || !userInput.trim()}
                     >
-                        {isLoading ? 'Sending...' : 'Send Message'}
+                        {isLoading ? 'Sending...' : 'Send'}
                     </Button>
                 </div>
-            </div>
-
-            {/* Usage Tips */}
-            <div className="tw-mt-6 tw-p-4 tw-bg-surface-variant tw-rounded-lg">
-                <h4 className="tw-font-medium tw-text-text tw-mb-2">💡 Usage Tips:</h4>
-                <ul className="tw-text-sm tw-text-text-weak tw-space-y-1">
-                    <li>• Ask for help with marketing copy and brand messaging</li>
-                    <li>• Request content ideas for campaigns or social media</li>
-                    <li>• Get suggestions for headlines, taglines, or product descriptions</li>
-                    <li>• Use Shift+Enter to add line breaks in your messages</li>
-                </ul>
             </div>
         </div>
     );
