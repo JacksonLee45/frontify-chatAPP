@@ -33,28 +33,27 @@ export const ChatGPTComponent = () => {
                 content: msg.content
             }));
 
+            console.log('API messages:', apiMessages);
+
             const response = await appBridge.api({
                 name: 'getSecureRequest',
                 payload: {
                     endpoint: 'chatgpt-completion',
                     requestParams: {
-                        model: 'gpt-4',
-                        messages: apiMessages,
-                        max_tokens: 500,
-                        temperature: 0.7
+                        messages: apiMessages
                     }
                 }
             });
 
             console.log('ChatGPT API Response:', response);
 
-            // Handle the response - use type-safe property access
-            let openAIResponse: any;
-            if (response && typeof response === 'object') {
-                // Try to access common response wrapper properties safely
-                openAIResponse = (response as any).data || (response as any).body || response;
-            } else {
-                openAIResponse = response;
+            // Handle the response - based on actual structure we can see it's in response.data
+            const openAIResponse = (response as any).data || response;
+
+            // Check for error responses first
+            if ((response as any).status && (response as any).status !== '200' && (response as any).status !== 200) {
+                const errorMessage = openAIResponse?.error?.message || `API Error: ${(response as any).status}`;
+                throw new Error(errorMessage);
             }
 
             if (openAIResponse && openAIResponse.choices && openAIResponse.choices[0]) {
