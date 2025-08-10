@@ -21,32 +21,17 @@ export const App = () => {
      * All the Tailwind classes derived from our tokens have the 'tw-' prefix.
      */
     return (
-        <div className="tw-font-body tw-text-text tw-min-h-screen tw-bg-base tw-flex tw-flex-col tw-p-6">
-            {/* Header */}
-            <div className="tw-text-center tw-mb-8">
-                <Heading size="xx-large" weight="strong">
+        <div className="tw-font-body tw-text-text tw-h-screen tw-bg-base tw-flex tw-flex-col">
+            {/* Header - Minimal */}
+            <div className="tw-flex-shrink-0 tw-text-center tw-py-4 tw-px-6">
+                <Heading size="large" weight="strong">
                     Frontify ChatGPT Assistant
                 </Heading>
-                <Flex direction="column">
-                    <p className="tw-text-text-weak tw-mb-1">
-                        Generate brand-approved messaging and content with AI assistance
-                    </p>
-                    <p className="tw-text-text-weak tw-text-body-small">
-                        [Surface] Running in: {context.surface}
-                    </p>
-                </Flex>
             </div>
 
-            {/* Main Chat Interface */}
-            <div className="tw-flex-1">
+            {/* Main Chat Interface - Takes remaining space */}
+            <div className="tw-flex-1 tw-p-6 tw-overflow-hidden">
                 <ChatGPTComponent />
-            </div>
-
-            {/* Footer */}
-            <div className="tw-text-center tw-mt-8 tw-pt-4 tw-border-t tw-border-line">
-                <p className="tw-text-text-weak tw-text-body-small">
-                    Powered by OpenAI's ChatGPT • Built with Frontify's Brand SDK
-                </p>
             </div>
         </div>
     );
